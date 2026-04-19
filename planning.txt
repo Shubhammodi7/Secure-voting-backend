@@ -1,0 +1,30 @@
+---------------------------
+VOTING APPLICATION - FINAL
+---------------------------
+
+MODELS:
+1. User: { name, age, email, mobile, address, aadharNumber, password, role, isVoted }
+2. Candidate: { name, party, age, votes: [{user, votedAt}], voteCount }
+
+CORE LOGIC:
+- Admin: Manages candidates. Role is 'admin'. Cannot vote.
+- Voter: Can view candidates and vote exactly once. Role is 'voter'.
+- Security: Passwords are hashed via bcrypt pre-save hook. JWT used for session.
+
+FINAL API LIST:
+
+--- User Routes (/api/v1/user) ---
+POST /signup           - Register a user
+POST /login            - Login with Aadhaar/Password
+GET  /profile          - Get logged-in user's data
+PUT  /profile/password - Update password
+
+--- Candidate Routes (/api/v1/candidate) ---
+POST   /add            - Add candidate (Admin only)
+PUT    /:id            - Update candidate (Admin only)
+DELETE /:id            - Delete candidate (Admin only)
+
+--- Voting Routes (/api/v1/vote) ---
+GET  /                 - List all candidates (for voters)
+GET  /count            - Live leaderboard (Sorted by votes)
+POST /:candidateId     - Cast a vote
